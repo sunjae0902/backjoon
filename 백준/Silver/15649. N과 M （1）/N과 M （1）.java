@@ -5,19 +5,20 @@ import java.io.BufferedWriter;
 import java.io.OutputStreamWriter;
 import java.util.Arrays;
 import java.util.StringTokenizer;
-
+//bufferedreader+stringbuffer 사용
 
 public class Main {
 	
-	private static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));  
+	private static StringBuffer sb=new StringBuffer(); 
 	private static int[] arr;
 	private static boolean[] visited;
 
 	public static void DFS(int n, int m, int depth) throws IOException {
 		if(depth==m+1) {
 			for(int i=1;i<m+1;i++)
-				bw.write(arr[i]+" ");
-			bw.write("\n");
+				sb.append(arr[i]).append(" ");
+			sb.append("\n");
+			
 			return;
 		}
 		else {
@@ -47,7 +48,8 @@ public class Main {
 		arr= new int[M+1];
 		
 		DFS(N,M,1);
-		bw.close();  
+		System.out.println(sb);
+		 
 		
 	}
 }
