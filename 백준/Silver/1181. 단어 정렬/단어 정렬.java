@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class Main {
@@ -19,6 +20,7 @@ public class Main {
 		}
 		
 		public static void quickSortByLen(List<String> list, int l, int r) {
+
 
 			if(l>=r) return;
 			else {
@@ -45,19 +47,21 @@ public class Main {
 			
 			
 		}
-		public static void arraySortByName(List<String> list) {
-			for(int i=0;i<list.size();i++) {
-				for(int j=i+1;j<list.size();j++) {
-					if(list.get(i).length()==list.get(j).length()) {
-						if(list.get(i).compareTo(list.get(j))>0) {
-							swap(list,i,j);
-						}
+		
+		public static void arraySort(List<String> list) {
+			list.sort(new Comparator<String>() {
+				public int compare(String s1, String s2) {
+					// 단어 길이가 같을 경우 
+					if (s1.length() == s2.length()) {
+						return s1.compareTo(s2); // 사전식 정렬 
+					} 
+					// 그 외의 경우 
+					else {
+						return s1.length() - s2.length(); // 길이로 정렬 
 					}
 				}
-			}
+			});	
 		
-
-	
 	}
 	
 	
@@ -74,8 +78,9 @@ public class Main {
 			}
 		br.close();
 		
-		quickSortByLen(list,0,list.size()-1);
-		arraySortByName(list);
+//		quickSortByLen(list,0,list.size()-1);
+//		arraySortByName(list);
+		arraySort(list);
 		print(list);
 			
 		
