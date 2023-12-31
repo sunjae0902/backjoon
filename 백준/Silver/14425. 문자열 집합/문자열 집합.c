@@ -23,10 +23,8 @@ void init_htable(Bucket *htable){ // 해시 테이블 초기화
 
 int hashFunc(char key[]){ // 해시 함수
     int sum=0;
-    int power=1;
     for(int i=0;key[i]!='\0';i++){
         sum+=key[i];
-       // power*=2;
     }
     return sum%BUCKET;
     
