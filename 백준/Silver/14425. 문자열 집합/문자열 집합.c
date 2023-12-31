@@ -1,103 +1,54 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#define MAX 10000
 
-#define BUCKET 100
-
-typedef struct Node{
-    char data[500];
-    struct Node *next;
-}Node;
-
-typedef struct{
-    int count;
-    Node *head;
-}Bucket;
-
-void init_htable(Bucket *htable){ // 해시 테이블 초기화
-    for(int i=0;i<BUCKET;i++){
-        htable[i].head = NULL;
-        htable[i].count = 0;
-    }
-}
-
-int hashFunc(char key[]){ // 해시 함수
-    int sum=0;
-    for(int i=0;key[i]!='\0';i++){
-        sum+=key[i];
-    }
-    return sum%BUCKET;
-    
-}
-void add_value(Bucket *htable, char input[]){
-    int hashIndex = hashFunc(input);
-
-    Node *n = (Node *)malloc(sizeof(Node)); // 메모리 할당
-   
-    strcpy(n->data,input);
-    n->next = NULL; // 값 저장
-    
-    if(htable[hashIndex].head == NULL) // 아직 노드가 없을 경우
-        htable[hashIndex].head = n;
-    
-    else {
-        Node *current = htable[hashIndex].head;
-        while(current->next != NULL){ // 연결 리스트 최하단에 삽입
-            current = current->next;
-        }
-        current->next = n;
-    }
-    htable[hashIndex].count++; // 1 증가시켜줌
-    return;
-    
-}
-int search(Bucket *htable, char input[]){
-    int hashIndex = hashFunc(input);
-    int i;
-    Node *h = htable[hashIndex].head;
-    while(h != NULL){
-        if(strcmp(h->data,input) == 0) return 1;
-        h = h->next;
-    }
-    return -1;
+int compare(const void *a,const void *b){
+    return strcmp(*(char **)a,*(char **)b);
     
 }
 
+int binarysearch(char *s[],int l,int r, char *value){
+    if(l<=r){
+        int m = (l+r)/2;
+        int res = strcmp(value,s[m]);
+        if(res == 0) return 1;
+        else if (res < 0)
+            return binarysearch(s,l,m-1,value);
+        else
+            return binarysearch(s,m+1,r,value);
+    }
+    else 
+        return 0;
+}
 
 
 int main(void){
     int N,M,cnt=0;
     
-    Bucket htable[BUCKET];
-    init_htable(htable); //초기화
-    
     scanf("%d %d",&N,&M);
     
+    char *s[MAX];
+    char temp[500];
+  
     for (int i = 0; i < N; i++) {
-        char temp[500];
-        scanf("%s", temp);
-        if(search(htable,temp)!=1)
-            add_value(htable, temp);
+        scanf("%s",temp);
+        s[i]=(char *)malloc(strlen(temp)+1);
+        strcpy(s[i],temp);
     }
+    
+    qsort(s,N,sizeof(char *),compare); // 정렬
     
     for (int i = 0; i < M; i++) {
-        char temp[500];
-        scanf("%s", temp);
-        if(search(htable,temp)==1) cnt++;
+        scanf("%s",temp);
+        cnt+=binarysearch(s,0,N-1,temp);
+        
     }
-
-
     printf("%d\n",cnt);
     
-    for (int i = 0; i < BUCKET; i++) {
-        Node *current = htable[i].head;
-        while (current != NULL) {
-            Node *next = current->next;
-            free(current);
-               current = next;
-           }
-       }
-    
+    for (int i = 0; i < N; i++) {
+        free(s[i]);
+    }
     
     return 0;
 }
