@@ -8,8 +8,7 @@ cnt = [[0] * 26 for _ in range(len(s) + 1)]
 
 for i in range(len(s)):
     c = ord(s[i]) - 97  # 현재 문자의 알파벳 인덱스 (0 ~ 25)
-    for j in range(26):
-        cnt[i+1][j] = cnt[i][j] # 다음 행 리스트에 이전 행 리스트 복사
+    cnt[i+1] = cnt[i][:]
     cnt[i+1][c] += 1 # 갱신
 
 for _ in range(q):
