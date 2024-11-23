@@ -2,7 +2,7 @@ import sys
 input = sys.stdin.readline
 
 N, M = map(int, input().split())
-tree = sorted(list(map(int, input().split())))
+tree = list(map(int, input().split()))
 
 def binarySearch(start, end):
     while(start <= end):
@@ -17,5 +17,5 @@ def binarySearch(start, end):
             end = mid -1
     return end
             
-max = binarySearch(0, tree[N-1])
+max = binarySearch(0, max(tree))
 print(max)  
