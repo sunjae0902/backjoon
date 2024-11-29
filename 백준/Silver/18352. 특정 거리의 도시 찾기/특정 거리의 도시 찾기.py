@@ -17,8 +17,7 @@ def dijkstra_2(s):
     heapq.heappush(hq, (0, s))
     while hq:
         dist, now = heapq.heappop(hq) # 최단 거리인 노드를 꺼내기 (최소 힙)
-        if distances[now] < dist:
-            continue
+       
         for i, c in arr[now]:
             cost = distances[now] + c
             if cost < distances[i]:
