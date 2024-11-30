@@ -9,10 +9,7 @@ distances = [INF] * (V+1)
 
 for i in range(E):
     a, b, c = map(int, input().split())
-    if len(arr[a]) > 0 and arr[a][0][0] == b and arr[a][0][1] > c:
-        arr[a][0] = (b,c)
-    else:
-        arr[a].append((b,c))
+    arr[a].append((b,c))
     
 
 def dijkstra(s):
