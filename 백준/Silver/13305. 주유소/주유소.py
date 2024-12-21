@@ -2,12 +2,11 @@ import sys
 input = sys.stdin.readline
 
 N = int(input())
-length = list(map(int, input().split()))
-price = list(map(int, input().split()))
-totalLength = 0
-ans = length[0] * price[0]
-price[1:] = sorted(price[1:])
-for i in range(1,N-1):
-    totalLength += length[i]
-ans += totalLength * price[i]
-print(ans)
+dist = list(map(int, input().split()))
+cost = list(map(int, input().split()))
+min_price = int(10e9)
+res = 0
+for i in range(N-1):
+    min_price = min(min_price, cost[i])
+    res += min_price * dist[i]
+print(res)
