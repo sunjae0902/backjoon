@@ -1,11 +1,20 @@
 import sys
 input = sys.stdin.readline
 arr = list(input().rstrip())
-half = []
-for i in range(arr.count('0') // 2):
-    half.append(0)
-for i in range(arr.count('1') // 2):
-    half.append(1)
-half.sort()
-for i in half:
-    print(i, end='')
+
+remove_one = arr.count("1") // 2
+remove_zero = arr.count("0") // 2
+
+s, e = 0, len(arr) - 1  
+while remove_one > 0 or remove_zero > 0:
+    if remove_one > 0 and arr[s] == "1":
+        arr[s] = ""  # 제거 처리
+        remove_one -= 1
+    else:
+        s += 1 
+    if remove_zero > 0 and arr[e] == "0":
+        arr[e] = ""  
+        remove_zero -= 1
+    else:
+        e -= 1  
+print("".join(arr))
