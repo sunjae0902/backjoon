@@ -4,20 +4,17 @@ input = sys.stdin.readline
 s = input().rstrip()
 t = input().rstrip()
 ans = 0
-if s != t:
-    q = deque([t])
-    while q:
-        now = q.popleft()
-        if len(now) < len(s):
-            break
-        elif now == s:
-            ans = 1
-            break
-        arr = []
-        if now[-1] == 'A':
-            arr.append(now[:len(now)-1])
-        if now[0] == 'B':
-            arr.append(''.join(list(reversed(now[1:]))))
-        for item in arr:
-            q.append(item)
+def recur(start):
+    if len(start) < len(s):
+        return 0
+    elif start == s:
+        return 1
+    else:
+        ans1, ans2 = 0, 0
+        if start[-1] == 'A':
+            ans1 = recur(start[:len(start)-1])
+        if start[0] == 'B':
+            ans2 = recur(''.join(list(reversed(start[1:]))))
+        return ans1 or ans2
+ans = recur(t)
 print(ans)
