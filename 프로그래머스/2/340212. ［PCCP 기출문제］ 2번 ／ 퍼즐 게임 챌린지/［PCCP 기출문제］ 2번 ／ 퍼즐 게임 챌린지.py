@@ -7,16 +7,10 @@ def solution(diffs, times, limit):
         tmp = 0
         m = (s+e) // 2 
         for i in range(len(diffs)):
-            if i == 0:
-                if level[m] >= diffs[i]:
-                    tmp += times[i]
-                else:
-                    tmp += (diffs[i]-level[m] + 1) * times[i]
+            if level[m] >= diffs[i]:
+                tmp += times[i]
             else:
-                if level[m] >= diffs[i]:
-                    tmp += times[i]
-                else:
-                    tmp += (diffs[i]-level[m]) * (times[i] + times[i-1]) + times[i]
+                tmp += (diffs[i]-level[m]) * (times[i] + times[i-1]) + times[i]
         if limit < tmp:
             s = m + 1
         else:
