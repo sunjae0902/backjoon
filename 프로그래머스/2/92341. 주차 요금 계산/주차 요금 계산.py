@@ -1,4 +1,5 @@
 from collections import defaultdict
+import math
 
 def get_duration(start, end):
     start_h, start_m = int(start[:2]) * 60, int(start[3:])
@@ -27,7 +28,7 @@ def solution(fees, records):
     for i in range(len(answer)):
         fee = fees[1]
         if answer[i][1] > fees[0]:
-            unit_time_fee = (answer[i][1] - fees[0]) // fees[2] if (answer[i][1] - fees[0]) % fees[2] == 0 else (answer[i][1] - fees[0]) // fees[2] + 1
+            unit_time_fee = math.ceil((answer[i][1] - fees[0]) / fees[2])
             fee += unit_time_fee * fees[3]
         answer[i] = fee
     return answer
