@@ -1,41 +1,31 @@
 from collections import deque
-
 def solution(target):
+    answer = []
     scores = []
-
-    for i in range(1, 21):
-        scores.append((i, 1))   # single, Bull인 경우만 우선순위 
-        scores.append((i * 2, 0)) 
-        scores.append((i * 3, 0))
+    
     scores.append((50, 1))
-
-    # BFS: (현재 점수, 던진 횟수, 싱글+불 횟수)
-    queue = deque()
-    queue.append((0, 0, 0))  # 시작점
-
-    # visited[score] = (최소 던진 횟수, 보너스 사용 횟수)
-    visited = {}
-
-    while queue:
-        cur, count, bonus = queue.popleft()
-
-        if cur > target:
+    for i in range(1, 21):
+        scores.append((i, 1))
+        scores.append((2*i, 0))
+        scores.append((3*i, 0))
+        
+    q = deque()
+    q.append((0, 0, 0)) # 현재 점수, 던진 횟수, 싱글 + 불 횟수
+    visited = {} # visited[score]: score를 얻는 데 (최소 던진 횟수, 보너스 수)
+    
+    while q:
+        score, count, bonus = q.popleft()
+        if score > target:
             continue
-
-        # 이미 방문한 점수인 경우 → 더 적은 횟수로 방문했다면 갱신 안 함
-        if cur in visited:
-            prev_count, prev_bonus = visited[cur]
-            if count > prev_count:
+            
+        if score in visited:
+            if count > visited[score][0]:
                 continue
-            if count == prev_count and bonus <= prev_bonus:
+            if count == visited[score][0] and bonus <= visited[score][1]:
                 continue
-
-        visited[cur] = (count, bonus)
-
-        # 다음 점수 탐색
-        for score, is_bonus in scores:
-            queue.append((cur + score, count + 1, bonus + is_bonus))
-
-    # 결과
-    min_count, max_bonus = visited[target]
-    return [min_count, max_bonus]
+        visited[score] = (count, bonus) #갱신
+            
+        for s, is_bonus in scores:
+            q.append((score+s, count+1, bonus + (1 if is_bonus else 0)))
+            
+    return visited[target]
