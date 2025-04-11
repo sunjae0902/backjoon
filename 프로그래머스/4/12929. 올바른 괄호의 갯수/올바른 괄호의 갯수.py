@@ -1,12 +1,10 @@
 def solution(n):
     answer = 0
-    stack = [[0,0]]
-    while stack:
-        o, c = stack.pop()
-        if o == n and c == n:
-            answer += 1
-        if o < n:
-            stack.append([o+1, c])
-        if c < o:
-            stack.append([o, c+1])
-    return answer
+    dp = [0] * (n+1)
+    dp[0] = 1 
+    dp[1] = 1
+    for i in range(2, n+1): 
+        for j in range(1, i+1): 
+            dp[i] += dp[j-1] * dp[i-j]
+    
+    return dp[n]
