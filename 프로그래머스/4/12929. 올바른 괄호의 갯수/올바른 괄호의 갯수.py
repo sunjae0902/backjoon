@@ -1,12 +1,12 @@
 def solution(n):
-    def dfs(open_cnt, close_cnt): #열린, 닫힌
-        if open_cnt == n and close_cnt == n:
-            return 1
-        count = 0
-        if open_cnt < n:
-            count += dfs(open_cnt + 1, close_cnt)
-        if close_cnt < open_cnt:
-            count += dfs(open_cnt, close_cnt + 1)
-        return count
-
-    return dfs(0, 0)
+    answer = 0
+    stack = [[0,0]]
+    while stack:
+        o, c = stack.pop()
+        if o == n and c == n:
+            answer += 1
+        if o < n:
+            stack.append([o+1, c])
+        if c < o:
+            stack.append([o, c+1])
+    return answer
