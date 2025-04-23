@@ -1,24 +1,19 @@
 def solution(stones, k):
-    left, right = 1, max(stones) # 최대 건널 수 있는 사람 수
     answer = 0
-
-    while left <= right:
-        mid = (left + right) // 2
+    s, e = 1, max(stones)
+    while s <= e:
+        m = (s+e) // 2
         cnt = 0
-        max_cnt = 0
-        
-        for stone in stones:
-            if stone - mid < 0:
+        for i in range(len(stones)):
+            if stones[i] < m:
                 cnt += 1
                 if cnt >= k:
                     break
             else:
                 cnt = 0
-
         if cnt >= k:
-            right = mid - 1
+            e = m - 1
         else:
-            answer = mid
-            left = mid + 1
-
+            answer = m 
+            s = m + 1
     return answer
