@@ -1,30 +1,17 @@
-import math
-
-def square_dist(x1, y1, x2, y2):
-    return (x1 - x2) ** 2 + (y1 - y2) ** 2
+def dist(x, y):
+    return (x[0]-y[0]) ** 2 + (x[1]-y[1]) ** 2
 
 def solution(m, n, startX, startY, balls):
     answer = []
-    for ballX, ballY in balls:
-        min_dist = float('inf')
-        # 각 벽에 대해 반사된 공의 좌표 - A의 직선거리
-        mirrors = [
-            (-ballX, ballY),            # 좌측 벽
-            (2*m - ballX, ballY),       # 우측 벽
-            (ballX, -ballY),            # 하단 벽
-            (ballX, 2*n - ballY)        # 상단 벽
-        ]
-        
-        for mirrorX, mirrorY in mirrors:
-            # 출발점과 목적점이 같은 선상에 있고 공을 관통하는 경우 제외
-            if startX == ballX == mirrorX and (
-                (startY < ballY < mirrorY) or (mirrorY < ballY < startY)):
+    start = (startX, startY)
+    for x, y in balls:
+        reverse = [(-x, y), (2*m-x, y), (x, -y), (x, 2*n-y)]
+        min_dist = int(1e9)
+        for rx, ry in reverse:
+            if rx == x == startX and ((startY < y < ry) or (ry < y < startY)):
                 continue
-            if startY == ballY == mirrorY and (
-                (startX < ballX < mirrorX) or (mirrorX < ballX < startX)):
+            if ry == y == startY and ((startX < x < rx) or (rx < x < startX)):
                 continue
-            dist = square_dist(startX, startY, mirrorX, mirrorY)
-            min_dist = min(min_dist, dist)
-        
+            min_dist = min(min_dist, dist(start, (rx, ry)))
         answer.append(min_dist)
     return answer
