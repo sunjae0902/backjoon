@@ -1,10 +1,10 @@
 # [level 3] 부대복귀 - 132266 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/132266) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/132266?language=swift) 
 
 ### 성능 요약
 
-메모리: 105 MB, 시간: 722.92 ms
+메모리: 150 MB, 시간: 482.37 ms
 
 ### 구분
 
@@ -16,7 +16,7 @@
 
 ### 제출 일자
 
-2025년 05월 30일 23:51:35
+2025년 05월 31일 00:05:20
 
 ### 문제 설명
 
