@@ -1,16 +1,12 @@
 import heapq
-
 def solution(n, k, enemy):
-    heap = []
+    hq = []
     for i in range(len(enemy)):
-        heapq.heappush(heap, -enemy[i])  # 최대 힙 구현
+        heapq.heappush(hq, -enemy[i])
         n -= enemy[i]
-
         if n < 0:
-            if k == 0:
+            if k == 0: # 다 소진
                 return i
-            largest = -heapq.heappop(heap)  # 가장 많이 소모된 병사 수 되돌리기
-            n += largest
+            n -= heapq.heappop(hq) # 가장 많이 사용된 적군에 무적권 사용
             k -= 1
-            
     return len(enemy)
