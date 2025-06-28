@@ -1,10 +1,10 @@
 # [level 2] 소수 찾기 - 42839 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/42839) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/42839?language=swift) 
 
 ### 성능 요약
 
-메모리: 9.39 MB, 시간: 11.56 ms
+메모리: 16.4 MB, 시간: 13.16 ms
 
 ### 구분
 
@@ -16,7 +16,7 @@
 
 ### 제출 일자
 
-2025년 03월 13일 20:22:28
+2025년 06월 29일 01:28:46
 
 ### 문제 설명
 
