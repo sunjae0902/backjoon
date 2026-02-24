@@ -1,28 +1,24 @@
-from collections import deque
-
-def bfs(n, graph):
-    max_depth, count = 0, 0
-    q = deque([(1, 0)])
-    visited = [0] * (n+1)
-    visited[1] = 1
-    while q:
-        now, depth = q.popleft()
-        if depth > max_depth:
-            max_depth = depth
-            count = 0
-        if depth == max_depth:
-            count += 1
-        for v in graph[now]:
-            if not visited[v]:
-                q.append((v, depth+1))
-                visited[v] = 1
-    return count
-          
+import heapq as hq  
 def solution(n, edge):
+    answer = 0
     arr = [[] for _ in range(n+1)]
-    
+    visited = [0 for _ in range(n+1)]
+    visited[1] = 1
     for s,e in edge:
         arr[s].append(e)
         arr[e].append(s)
-
-    return bfs(n, arr)
+    
+    q = [(0,1)]
+    dist = [0 for _ in range(n+1)]
+    while q:
+        shortest, cur = hq.heappop(q)
+        dist[cur] = shortest
+        for dest in arr[cur]:
+            if not visited[dest]:
+                visited[dest] = 1
+                hq.heappush(q, (shortest + 1, dest))
+    max_dist = max(dist)
+    for d in dist:
+        if d == max_dist:
+            answer += 1
+    return answer
