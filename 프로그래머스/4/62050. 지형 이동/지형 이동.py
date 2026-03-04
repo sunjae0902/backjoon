@@ -1,70 +1,40 @@
-from collections import deque
-import heapq
-
 def solution(land, height):
     n = len(land)
-    move = [(-1, 0), (1, 0), (0, 1), (0, -1)]
-    
-    def bfs(start, union_id):
-        q = deque([start])
-        visited[start[0]][start[1]] = union_id
-        unions[union_id].append(start)
+    edges = []
 
-        while q:
-            x, y = q.popleft()
-            for dx, dy in move:
-                nx, ny = x + dx, y + dy
-                if 0 <= nx < n and 0 <= ny < n and visited[nx][ny] == -1:
-                    if abs(land[x][y] - land[nx][ny]) <= height:
-                        visited[nx][ny] = union_id # 그룹 id 저장
-                        unions[union_id].append((nx, ny))
-                        q.append((nx, ny))
-    
-    visited = [[-1] * n for _ in range(n)]
-    unions = []
-    union_id = 0
+    def idx(r, c): # 정점 번호 지정
+        return r * n + c
 
-    for i in range(n):
-        for j in range(n):
-            if visited[i][j] == -1:
-                unions.append([])
-                bfs((i, j), union_id)
-                union_id += 1
+    move = [(1,0),(0,1)]  # 중복 방지 (무방향 그래프이므로)
 
-    pq = []
-    in_mst = [False] * union_id
-    total_cost = 0
-    count = 1  # 포함된 유니온 개수
+    for r in range(n):
+        for c in range(n):
+            for dr, dc in move:
+                nr, nc = r + dr, c + dc
+                if 0 <= nr < n and 0 <= nc < n:
+                    diff = abs(land[r][c] - land[nr][nc])
+                    cost = 0 if diff <= height else diff
+                    edges.append((cost, idx(r,c), idx(nr,nc))) ## 모든 간선 비용 저장 (비용,출발,도착)
 
-    # 초기 유니온을 MST에 추가
-    in_mst[0] = True
-    for x, y in unions[0]:
-        for dx, dy in move:
-            nx, ny = x + dx, y + dy
-            if 0 <= nx < n and 0 <= ny < n:
-                other_id = visited[nx][ny]
-                if other_id != 0:  # 다른 유니온과의 경계선이라면
-                    cost = abs(land[x][y] - land[nx][ny])
-                    heapq.heappush(pq, (cost, other_id))
+    parent = list(range(n*n)) # 각 노드가 속한 집합의 루트 노드 저장 0~n**2-1
+    def find(x):# 부모의 부모~로 타고 올라가서 루트 부모 찾음
+        if parent[x] != x:
+            parent[x] = find(parent[x])
+        return parent[x]
 
-    # Step 3: 프림 알고리즘으로 최소 비용의 다리 연결 (O(N² log N))
-    while pq and count < union_id:
-        cost, u = heapq.heappop(pq)
-        if in_mst[u]:  # 이미 MST에 포함된 유니온이라면 스킵
-            continue
+    def union(a, b):
+        a = find(a)
+        b = find(b)
+        if a == b: # 같으면 연결 못함
+            return False
+        parent[b] = a
+        return True
 
-        in_mst[u] = True
-        total_cost += cost
-        count += 1
+    edges.sort() # 간선 비용을 오름차순으로 정렬!
+    answer = 0
 
-        # 새로운 유니온이 MST에 추가됐으므로, 그 유니온의 경계를 우선순위 큐에 추가
-        for x, y in unions[u]:
-            for dx, dy in move:
-                nx, ny = x + dx, y + dy
-                if 0 <= nx < n and 0 <= ny < n:
-                    other_id = visited[nx][ny]
-                    if not in_mst[other_id]:  # 다른 유니온이라면 다리 후보 추가
-                        new_cost = abs(land[x][y] - land[nx][ny])
-                        heapq.heappush(pq, (new_cost, other_id))
+    for cost, u, v in edges:
+        if union(u, v):
+            answer += cost
 
-    return total_cost
+    return answer
