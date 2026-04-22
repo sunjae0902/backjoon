@@ -12,7 +12,7 @@ def convert(exp, n):
     return ' '.join(exp_cp)
 
 def valid(exp, n):
-    return list(convert(exp, n).split())[-1] == exp[-1]
+    return convert(exp, n).split()[-1] == exp[-1]
     
 def solution(expressions):
     answer = []
@@ -21,7 +21,7 @@ def solution(expressions):
     solved = []
     
     for exp in expressions:
-        exp = list(exp.split())
+        exp = exp.split()
         if 'X' in exp:
             mystery.append(exp)
         else:
@@ -44,7 +44,7 @@ def solution(expressions):
         for exp in mystery:
             s = set()
             for n in possible:
-                res_arr = list(convert(exp, n).split())
+                res_arr = convert(exp, n).split()
                 s.add(res_arr[-1])
             if len(s) > 1:
                 res_arr[-1] = '?'
