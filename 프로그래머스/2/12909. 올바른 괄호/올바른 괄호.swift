@@ -1,16 +1,15 @@
 import Foundation
 
-func solution(_ s:String) -> Bool {
-    var stack: [Character] = [] // 문자
-    for p in s {
-        if stack.isEmpty || p == "(" {
-            stack.append(p)
+func solution(_ s:String) -> Bool
+{
+    var st: [Character] = []
+    for ch in s {
+        if ch == "(" {
+            st.append(ch)
         } else {
-            let popped = stack.popLast()
+            if st.isEmpty { return false }
+            st.removeLast()
         }
     }
-    if !stack.isEmpty {
-        return false
-    }
-    return true
+    return st.isEmpty
 }
