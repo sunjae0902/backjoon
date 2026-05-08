@@ -1,13 +1,14 @@
 import Foundation
 
 func solution(_ clothes:[[String]]) -> Int {
-    var clotheMap: [String: [String]] = [:]
-    for clothe in clothes {
-        clotheMap[clothe[1], default: []].append(clothe[0])
+    var answer = 0
+    var dict: [String: [String]] = [:]
+    for item in clothes {
+        dict[item[1], default: []].append(item[0])
     }
-    var cnt = 1
-    for val in clotheMap.values {
-        cnt *= val.count + 1
+    
+    answer = dict.reduce(1) { acc, cur in
+        acc * (cur.value.count + 1)
     }
-    return cnt-1
+    return answer-1
 }
