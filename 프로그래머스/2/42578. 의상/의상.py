@@ -1,12 +1,10 @@
 from collections import defaultdict
-# 여집합
+
 def solution(clothes):
-    answer = 0
-    closet = defaultdict(list)
-    for c in clothes:
-        closet[c[-1]].append(c[0])
-    cnt = 1
-    for v in closet.values():
-        cnt *= len(v)+1
-    answer = cnt-1
-    return answer
+    answer = 1
+    d = defaultdict(list)
+    for n, t in clothes:
+        d[t].append(n)
+    for val in d.values():
+        answer *= len(val) + 1
+    return answer-1
