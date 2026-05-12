@@ -1,16 +1,21 @@
 def solution(numbers, target):
-    def dfs(s, v):
-        cnt = 0
-        stack = [(s, v)]
-        while stack:
-            ind, now = stack.pop()
-            if ind == len(numbers)-1:
-                if now == target:
-                    cnt += 1
-                continue
-            for x in [now+numbers[ind+1], now-numbers[ind+1]]:
-                stack.append((ind+1, x))
-        return cnt
-    
-    answer = dfs(0, numbers[0]) + dfs(0, (-1) * numbers[0])
+    answer = 0
+    combis = []
+    def dfs(cur):
+        depth = len(cur)
+        if depth == len(numbers):
+            combis.append(cur)
+            return
+        dfs(cur + "+")
+        dfs(cur + "-")
+    dfs('')
+    for combi in combis:
+        res = 0
+        for i in range(len(numbers)):
+            if combi[i] == '+':
+                res += numbers[i]
+            else:
+                res -= numbers[i]
+        if res == target:
+            answer += 1
     return answer
