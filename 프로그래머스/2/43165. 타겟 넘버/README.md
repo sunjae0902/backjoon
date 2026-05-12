@@ -1,10 +1,10 @@
 # [level 2] 타겟 넘버 - 43165 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/43165) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/43165?language=swift) 
 
 ### 성능 요약
 
-메모리: 99.4 MB, 시간: 1315.82 ms
+메모리: 140 MB, 시간: 3960.17 ms
 
 ### 구분
 
@@ -16,7 +16,7 @@
 
 ### 제출 일자
 
-2026년 05월 12일 15:56:37
+2026년 05월 12일 16:08:26
 
 ### 문제 설명
 
