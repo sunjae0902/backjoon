@@ -1,23 +1,18 @@
 from collections import deque
-
-def bfs(maps):
-    move = [(0, -1), (0, 1), (1, 0), (-1, 0)]
-    n, m = len(maps), len(maps[0])
-    res = n * m + 1
-    s = (0,0)
-    q = deque([(1, s)])
-    visited = [[0 for _ in range(m)] for _ in range(n)]
-    while q:
-        cnt, now = q.popleft()
-        if now == (n-1, m-1):
-            res = min(res, cnt)
-        for x, y in move:
-            nx, ny = now[0]+x, now[1]+y
-            if 0 <= nx < n and 0 <= ny < m and not visited[nx][ny] and maps[nx][ny] == 1:
-                q.append((cnt+1, (nx, ny)))
-                visited[nx][ny] = 1
-    return res if res != n*m + 1 else -1
-        
 def solution(maps):
-    answer = bfs(maps)
-    return answer
+    answer = int(1e9)
+    n, m = len(maps), len(maps[0])
+    visited = [[0 for _ in range(m)] for _ in range(n)]
+    move = [(0, 1), (0, -1), (1, 0), (-1,0)]
+    q = deque([(0, 0, 0)])
+    while q:
+        r, c, cnt = q.popleft()
+        if (r, c) == (n-1, m-1):
+            answer = min(answer, cnt)
+        for dr, dc in move:
+            nr, nc = r+dr, c+dc
+            if 0 <= nr < n and 0 <= nc < m and not visited[nr][nc] and maps[nr][nc]:
+                visited[nr][nc] = 1
+                q.append((nr, nc, cnt+1))
+    
+    return answer+1 if answer != int(1e9) else -1
