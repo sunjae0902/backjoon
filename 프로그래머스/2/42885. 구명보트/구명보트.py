@@ -1,12 +1,13 @@
 def solution(people, limit):
     answer = 0
-    stack = []
     people.sort(reverse = True)
+    st = []
     for w in people:
-        if stack and stack[-1] + w <= limit:
-            stack.pop()
+        if st and st[-1] + w <= limit:
+            st.pop()
             answer += 1
             continue
-        stack.append(w)
-    answer += len(stack)
+        st.append(w)
+    answer += len(st)
+
     return answer
