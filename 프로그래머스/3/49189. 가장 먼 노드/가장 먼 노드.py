@@ -1,21 +1,24 @@
 from collections import deque
 
 def solution(n, edge):
-    answer = []
     graph = [[] for _ in range(n+1)]
-    visited = [0 for _ in range(n+1)]
-    visited[1] = 1
-    q = deque([(0, 1)]) # 최단거리, N번노드까지
-    for s,e in edge:
+
+    for s, e in edge:
         graph[s].append(e)
         graph[e].append(s)
-    while q:
-        dist, node = q.popleft()
-        answer.append(dist)
-        for n in graph[node]:
-            if visited[n]:
-                continue
-            visited[n] = 1
-            q.append((dist+1, n))
 
-    return len([i for i in answer if i == max(answer)])
+    dist = [-1] * (n+1) # bfs 1번에 1번 출발의 모든 최단거리 계산 가능
+    dist[1] = 0
+
+    q = deque([1])
+
+    while q:
+        cur = q.popleft()
+
+        for nxt in graph[cur]:
+            if dist[nxt] == -1:
+                dist[nxt] = dist[cur] + 1
+                q.append(nxt)
+
+    max_dist = max(dist)
+    return dist.count(max_dist)
